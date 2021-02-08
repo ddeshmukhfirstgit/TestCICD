@@ -1,0 +1,55 @@
+<apex:page controller="ListJSON_CC" sidebar="false" showHeader="false" >
+    <apex:stylesheet value="/resource/SLDS2316/assets/styles/salesforce-lightning-design-system.css"/>
+    <style>
+        .displayAsCell{
+            display: table-cell;
+        } 
+    </style>
+     
+     <apex:form >
+        <apex:pageBlock title="Continuation Demo">
+            
+            <apex:commandButton action="{!invokeInitialRequestForSessionId}" value="Request Service" reRender="responseBlock, errors" status="status"/>
+        </apex:pageBlock>
+
+        <apex:pageBlock id="responseBlock" title="Response from External System">
+            <div class="akshayLightning">
+                <table class="slds-table slds-table--bordered ">
+                  <thead>
+                     <tr class="slds-text-title--caps">
+                        <apex:repeat value="{!labelOrders}" var="jsonLabel">
+                            <th scope="col">
+                               <div class="slds-truncate" title="Opportunity Name">  {!jsonLabel}  </div>
+                            </th>
+                        </apex:repeat>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <apex:repeat value="{!jsonRecordWrapper}" var="recordWrap">
+                         <tr>
+                            <apex:repeat value="{!labelOrders}" var="jsonLabel">
+                                <apex:repeat value="{!recordWrap.jsonFieldWrapperList}" var="fWrap">
+                                    <td data-label="Account Name" class="{! IF( fWrap.jsonLabel ==  jsonLabel,'displayAsCell','slds-hide')}">
+                                       <div class="slds-truncate" title="Cloudhub">{!fWrap.value}</div>
+                                    </td>
+                                </apex:repeat>
+                            </apex:repeat>
+                         </tr>
+                     </apex:repeat>
+                  </tbody>
+                </table>
+            </div>
+            <div style="text-align: center;">
+                <apex:actionStatus id="status">
+                    <apex:facet name="start">
+                        <apex:outputPanel >
+                            <img src="/resource/SLDS2316/assets/images/spinners/slds_spinner_brand.gif" width="45px" height="45px" />
+                            <apex:outputLabel value="Loading..."/>
+                        </apex:outputPanel>            
+                    </apex:facet>
+                </apex:actionStatus>
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

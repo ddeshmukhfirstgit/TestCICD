@@ -1,0 +1,173 @@
+<aura:component controller="CaseDetails_CC" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <ltng:require styles="/resource/slds/assets/styles/salesforce-lightning-design-system-ltng.css"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="userCase" type="sObject" access="global"/>
+    <aura:attribute name="contactsOnAccounts" type="sObject[]" />
+    <aura:attribute name="provisionalOrders" type="CaseDetails_CC.ProvisionalOrders[]" />
+    <aura:attribute name="provisionalTasks" type="sObject[]" />
+    
+    
+    <aura:attribute name="servicePlanHeader" type="String"/>
+    <aura:attribute name="provisioningOrdersHeader" type="String"/>
+    <aura:attribute name="provisioningTasksHeader" type="String"/>
+    
+    <aura:handler name="provisionalTasksEvent" event="c:ProvisionalTasksEvt"   action="{!c.handleProvisionalTasksEvent}"/>
+    
+    <div class="akshayLightning">
+        <article class="slds-card slds-box">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
+                            <c:svg xlinkHref="/resource/slds/assets/icons/standard-sprite/svg/symbols.svg#contact" class="slds-icon slds-icon--small"  />
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2>
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                <span class="slds-text-heading--small">{!v.userCase.Account.Name}</span>
+                            </a>
+                        </h2>
+                    </div>
+                </header>
+
+            </div>
+            <div class="slds-card__body slds-grid slds-m-left--large">
+                <div class="slds-size--2-of-6">
+                    <div>
+                        <h2> Personal Information</h2>
+                    </div>
+                    <div>
+                    	<span> Home Contact : {!v.userCase.Account.Phone}</span>
+                    </div>
+                </div>
+                <div class="slds-size--2-of-6">
+                    <div>
+                        <h2> Billing Details</h2>
+                    </div>
+                    <div>
+                    	<span> {!v.userCase.Account.BillingStreet}, {!v.userCase.Account.BillingCity}, </span>
+                        <span> {!v.userCase.Account.BillingState}, {!v.userCase.Account.BillingCountry}, </span>
+                        <span> {!v.userCase.Account.BillingPostalCode}</span>
+                    </div>
+                </div>
+                <div class="slds-size--2-of-6">
+                    <div>
+                        <h2> Alternate Authority</h2>
+                    </div>
+                    <div>
+                    	<span> {!v.userCase.Account.BillingCity} </span>
+                        
+                    </div>
+                </div>
+            </div>
+                
+            <div class="slds-card__footer"> <span> <h2> {!v.servicePlanHeader}</h2></span></div>
+        </article>    
+        <div id="salesOrders" class=" slds-theme--shade slds-box">
+            
+            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-m-left--large">
+                <div class="slds-text-heading--medium slds-m-left--small"> Provisional Orders (Contacts related to account as of now) </div>
+                <div class="slds-p-horizontal--small slds-m-top--medium slds-size--1-of-1 slds-large-size--5-of-5">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=""> Name</div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "> Email</div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class="">Mobile</div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" ">Home Phone</div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "></div>
+                        </div>
+                    </div>
+                    
+                    <aura:iteration items="{!v.contactsOnAccounts}" var="con">
+                        <c:ProvisionalOrderCmp selectedContact="{!con}"/>
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>
+        <div id="provisionTasks" class=" slds-theme--shade slds-box">
+            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-m-left--large">
+                <div class="slds-text-heading--medium slds-m-left--small"> Provisional Tasks (Tasks related to contact as of now) </div>
+                <div class="slds-p-horizontal--small slds-m-top--medium slds-size--1-of-1 slds-large-size--5-of-5">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=""> Subject </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "> Priority </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=""> Status </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "> Activity Date </div>
+                        </div>
+                    </div>
+                    <aura:iteration items="{!v.provisionalTasks}" var="task">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded ">
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Cloudhub"><a href="javascript:void(0);">{!task.Subject}</a></div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="jrogers@cloudhub.com">{!task.Priority}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Prospecting">{!task.Status}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Prospecting">{!task.ActivityDate}</div>
+                            </div>
+                            
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>
+        <div id="provisionOrders" class=" slds-theme--shade slds-box slds-hide">
+            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-m-left--large">
+                
+                <div class="slds-p-horizontal--small slds-m-top--medium slds-size--1-of-1 slds-large-size--5-of-5">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=""> Name</div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "> Date </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=""> Details </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                            <div class=" "> Comments </div>
+                        </div>
+                    </div>
+                    <aura:iteration items="{!v.provisionalOrders}" var="provisional">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded ">
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Cloudhub"><a href="javascript:void(0);">{!provisional.provisionName}</a></div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="jrogers@cloudhub.com">{!provisional.provisionDate}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Prospecting">{!provisional.provisionDetails}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                                <div class="slds-truncate" title="Prospecting">{!provisional.provisionComments}</div>
+                            </div>
+                            
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

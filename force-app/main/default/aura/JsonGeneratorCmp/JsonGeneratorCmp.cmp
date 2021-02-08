@@ -1,0 +1,30 @@
+<aura:component controller="CaseDetails_CC">
+    <aura:attribute name="methodName" type="String" access="global"/>
+    <aura:attribute name="sObjectId" type="String" access="global"/>
+    <aura:attribute name="parameterName" type="String" access="global"/>
+    <aura:attribute name="outputList" type="CaseDetails_CC.ProvisionalOrders[]" />
+    <aura:attribute name="outputLabelList" type="String[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.getJson}" />
+    
+    <!--<aura:registerEvent name="jsonOutputEvent" type="c:JsonOutputEvt"/>-->
+    
+    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-m-left--large">
+        <div class="slds-text-heading--medium slds-m-left--small"> Provisional Orders (Contacts related to account as of now) </div>
+        <div class="slds-grid slds-p-horizontal--small slds-m-top--medium slds-size--1-of-1 slds-large-size--5-of-5">
+            <aura:iteration items="{!v.outputLabelList}" var="label">
+                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                    <div class=""> {!label}</div>
+                </div>
+               
+            </aura:iteration>
+        </div>
+        <div class="slds-grid slds-p-horizontal--small slds-m-top--medium slds-size--1-of-1 slds-large-size--5-of-5">
+            <aura:iteration items="{!v.outputList}" var="record">
+                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+                    <div class=""> {!record.provisionName}</div>
+                </div>
+            </aura:iteration>
+        </div>
+    </div>
+    
+</aura:component>

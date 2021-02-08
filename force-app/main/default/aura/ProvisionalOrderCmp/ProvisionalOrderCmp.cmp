@@ -1,0 +1,23 @@
+<aura:component controller="CaseDetails_CC">
+	<aura:attribute name="selectedContact" type="Contact" access="global"/>
+    <aura:registerEvent name="provisionalTasksEvent" type="c:ProvisionalTasksEvt"/>
+
+    
+    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+            <div class="slds-truncate" title="Cloudhub"><a href="javascript:void(0);">{!v.selectedContact.Name}</a></div>
+        </div>
+        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+            <div class="slds-truncate" title="jrogers@cloudhub.com">{!v.selectedContact.Email}</div>
+        </div>
+        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+            <div class="slds-truncate" title="Prospecting">{!v.selectedContact.MobilePhone}</div>
+        </div>
+        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+            <div class="slds-truncate" title="Prospecting">{!v.selectedContact.MobilePhone}</div>
+        </div>
+        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--1-of-5 slds-p-bottom--large">
+            <button   class="slds-button slds-button--neutral" onclick="{!c.getProvisionTasks}">Get</button>
+        </div>
+    </div>
+</aura:component>

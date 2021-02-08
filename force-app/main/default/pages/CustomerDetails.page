@@ -1,0 +1,60 @@
+<apex:page controller="CustomerDetailsPage_CC">
+<apex:includeScript value="/support/console/38.0/integration.js"/>
+
+    <apex:form >
+        <apex:outputPanel id="mainPanel">
+        <!-- Related lists -->
+        <div>
+            <button onclick="openPrimaryTab2() return false;" name="click" />
+           
+        </div>
+        <!-- Case Details -->
+        {!showCase}
+        <apex:outputPanel id="caseDetails"  rendered="{!showCase}">
+           
+                <apex:detail subject="{!caseId}" relatedList="false" title="false"/>        
+          
+        </apex:outputPanel>
+        
+       <script>
+        function showCaseDetails(){
+            console.log('Click me');    
+            alert('caseId');
+            showThisCaseDetails();
+            openPrimaryTab2();
+        }
+        
+         function openPrimaryTab2() {
+        console.log('inside this');
+        sforce.console.openPrimaryTab(null,
+                                      '/'+{!caseId}, true, 'Google');
+    }
+    //The callback function that openSubtab will call once it has the ID for its
+    //primary tab
+    var callOpenSubtab=function callOpenSubtab(result) {
+        sforce.console.openSubtab(result.id,
+                                  '/', true, 'example');
+    };
+    function openSubtab() {
+        sforce.console.getEnclosingPrimaryTabId(callOpenSubtab);
+    }
+    //Sets the title of the current tab to "Example"
+    function setTitle() {
+        sforce.console.setTabTitle('Example');
+    }
+    //The callback function that closeTab will call once it has the ID for its tab
+    var callCloseTab= function callCloseTab(result) {
+        sforce.console.closeTab(result.id);
+    }
+    function closeTab() {
+        sforce.console.getEnclosingTabId(callCloseTab);
+    }
+    
+        </script>
+        </apex:outputPanel>        
+        <apex:actionFunction action="{!setCaseId}" name="showThisCaseDetails" reRender="mainPanel">    
+            <apex:param name="firstParam" value=""/>
+        </apex:actionFunction>
+    </apex:form>
+    
+</apex:page>

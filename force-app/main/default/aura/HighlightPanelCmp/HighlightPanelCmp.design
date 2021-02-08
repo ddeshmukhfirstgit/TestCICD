@@ -1,0 +1,6 @@
+<design:component label="Hello World">
+
+    <design:attribute name="servicePlanHeader" label="Service Plan" default="Service Plan"/>
+    <design:attribute name="provisioningOrdersHeader" label="Provisioning Orders" default="Provisioning Orders"/>
+    <design:attribute name="provisioningTasksHeader" label="Provisioning Tasks" default="Provisioning Tasks"/>
+</design:component>

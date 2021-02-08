@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="setSharingFSC">
+    
+    <apiVersion>46.0</apiVersion>
+    
+    <isExposed>true</isExposed>
+    
+    <masterLabel>RoleManager</masterLabel>
+    
+    <description>Role Manager</description>
+    
+    <targets>
+        
+        <target>lightning__FlowScreen</target>
+        
+        <target>lightning__RecordPage</target>
+        
+    </targets>
+    
+    <targetConfigs>
+        
+        <targetConfig targets="lightning__RecordPage">
+            
+            <property name="editTabName" type="String"/>
+            
+            <property name="addTabName" type="String"/>
+            
+            <property name="supportedAddCapabilities" type="String"/>
+            
+            <property name="supportedEditCapabilities" type="String"/>
+            
+            <property name="managerName" type="String"/>
+            
+            <property name="availableObjectTypes" type="String"/>
+            
+        </targetConfig>
+        
+        <targetConfig targets="lightning__FlowScreen">
+            
+            <property name="recordId" required="true" default="{!recordId}" type="String"/>
+            
+            <property name="editTabName" required="true" default="Edit" type="String"/>
+            
+            <property name="addTabName" required="true" default="Add" type="String"/>
+            
+            <property name="supportedAddCapabilities" type="String"/>
+            
+            <property name="supportedEditCapabilities" type="String"/>
+            
+            <property name="managerName" type="String"/>
+            
+            <property name="availableObjectTypes" type="String"/>
+            
+            <property name="selectionRequired" type="Boolean"/>
+            
+        </targetConfig>
+        
+    </targetConfigs>
+    
+
+</LightningComponentBundle>
