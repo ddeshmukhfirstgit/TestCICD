@@ -4,6 +4,7 @@
   <!-- Use the Apex model and controller to fetch server side data -->
   <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer">
     <thead>
+      
       <tr class="slds-text-heading--label">
         <th scope="col"><span class="slds-truncate">ID</span></th>
         <th scope="col"><span class="slds-truncate">Name</span></th>
